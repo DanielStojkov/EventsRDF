@@ -41,11 +41,27 @@
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
+            <version>${jena-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda-time.version}</version>
         </dependency>
     </dependencies>
 
     <properties>
         <java.version>1.8</java.version>
+        <jena-core.version>3.0.0</jena-core.version>
+        <jsoup.version>1.8.3</jsoup.version>
+        <joda-time.version>2.9.4</joda-time.version>
     </properties>
 
 
