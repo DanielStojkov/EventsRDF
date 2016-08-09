@@ -1,7 +1,7 @@
 package events.exception;
 
 /**
- * Created by gcvetano on 09.08.2016.
+ * Html parsing exception.
  */
 public class HtmlParseException extends RuntimeException {
     public HtmlParseException() {

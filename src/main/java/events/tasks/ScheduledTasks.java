@@ -4,7 +4,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Daniel on 8/4/2016.
+ * A component that runs on a schedule.
  */
 @Component
 public class ScheduledTasks {

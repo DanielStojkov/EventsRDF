@@ -3,9 +3,9 @@ package events.exporters;
 import events.models.CulturalEvent;
 
 /**
- * Created by Daniel on 8/4/2016.
+ * Rdf exporter.
  */
 public interface RdfExporter {
 
-    public void export(CulturalEvent event);
+    void export(CulturalEvent event);
 }

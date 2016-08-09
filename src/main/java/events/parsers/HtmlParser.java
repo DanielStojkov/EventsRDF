@@ -5,7 +5,7 @@ import events.models.CulturalEvent;
 import java.util.List;
 
 /**
- * Created by Daniel on 8/4/2016.
+ * Html parser interface.
  */
 public interface HtmlParser {
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Created by gcvetano on 09.08.2016.
+ * Demo controller.
  */
 @RestController
 @RequestMapping("/api/demo")

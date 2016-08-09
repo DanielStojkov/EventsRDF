@@ -1,20 +1,19 @@
 package events.models;
 
-import org.joda.time.DateTime;
-
 /**
- * Created by Daniel on 8/4/2016.
+ * A model representing a cultural event.
  */
 public class CulturalEvent {
-    private DateTime date;
+    // TODO: gcvetano 09.08.2016 make date DateTime instead of String
+    private String date;
     private String title;
     private String place;
 
-    public DateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
