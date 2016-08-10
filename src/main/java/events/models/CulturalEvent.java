@@ -1,6 +1,9 @@
 package events.models;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.springframework.format.datetime.DateFormatter;
 
 /**
  * A model representing a cultural event.
@@ -12,6 +15,15 @@ public class CulturalEvent {
 
     public DateTime getDate() {
         return date;
+    }
+
+    /**
+     * Returns the day in the format yyyy/MM/dd HH.
+     * @return String representation of the date.
+     */
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd HH");
+        return date.toString(formatter);
     }
 
     public void setDate(DateTime date) {
@@ -36,6 +48,6 @@ public class CulturalEvent {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s", getDate(), getTitle(), getPlace());
+        return String.format("%s::%s::%s", getTitle(), getFormattedDate(), getPlace());
     }
 }

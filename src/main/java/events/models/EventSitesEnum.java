@@ -4,7 +4,16 @@ package events.models;
  * Enumeration for the sources that provide Cultural Events.
  */
 public enum EventSitesEnum {
-    TIME_MK("http://www.time.mk/nastani/",
+    // TODO: gcvetano 10.08.2016 create a universal datetime formatter and pass a Function as a parameter
+    // the function should convert the date in html to a universal date for the formatter
+
+    EVENTI_MK("http://eventi.mk/skopje/nastani/kategorija/kultura/",
+            ".type-tribe_events > .entry-title",
+            ".type-tribe_events > .tribe-events-event-meta > .location > .time-details",
+            "yyyy MMM dd HH",
+            ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details"),
+
+    TIME_MK("http://www.time.mk/nastani/macedonia/3",
             ".event_single > .event_actions > p",
             ".event_single > .event_actions > #event_date",
             "EEEE, MMM dd HH yyyy",

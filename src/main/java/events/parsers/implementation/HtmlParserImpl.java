@@ -4,12 +4,12 @@ import events.exception.HtmlParseException;
 import events.models.CulturalEvent;
 import events.models.EventSitesEnum;
 import events.parsers.HtmlParser;
+import events.util.MacedonianMonthsConverter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +48,15 @@ public class HtmlParserImpl implements HtmlParser {
                         String hours = date.substring(atIndex + atString.length(), atIndex + atString.length() + 2);
                         String year = DateTime.now().year().getAsString(); // possible bug for New Years Eve
                         date = dayMonthDay + " " + hours + " " + year;
+                    } else if (entry.getUrl().equals(EventSitesEnum.EVENTI_MK.getUrl())) {
+                        String atSign = " @ ";
+                        String startDate = date.substring(0, date.indexOf(atSign) + atSign.length() + 2);
+                        String [] dateParts = startDate.split(" ");
+                        String month = MacedonianMonthsConverter.getEnglishNameForMonth(dateParts[0]);
+                        String day = dateParts[1];
+                        String hour = dateParts[3];
+                        String year = DateTime.now().year().getAsString();
+                        date = year + " " + month + " " + day + " " + hour;
                     }
 
                     event.setDate(DateTime.parse(date, dateTimeFormatter));
