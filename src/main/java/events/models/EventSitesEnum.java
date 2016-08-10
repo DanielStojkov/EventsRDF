@@ -1,29 +1,51 @@
 package events.models;
 
+import events.util.MacedonianMonthsConverter;
+import org.joda.time.DateTime;
+
+import java.util.function.Function;
+
 /**
  * Enumeration for the sources that provide Cultural Events.
  */
 public enum EventSitesEnum {
-    // TODO: gcvetano 10.08.2016 create a universal datetime formatter and pass a Function as a parameter
-    // the function should convert the date in html to a universal date for the formatter
 
     EVENTI_MK("http://eventi.mk/skopje/nastani/kategorija/kultura/",
             ".type-tribe_events > .entry-title",
             ".type-tribe_events > .tribe-events-event-meta > .location > .time-details",
+            date -> {
+                String atSign = " @ ";
+                String startDate = date.substring(0, date.indexOf(atSign) + atSign.length() + 2);
+                String [] dateParts = startDate.split(" ");
+                String month = MacedonianMonthsConverter.getEnglishNameForMonth(dateParts[0]);
+                String day = dateParts[1];
+                String hour = dateParts[3];
+                String year = DateTime.now().year().getAsString();
+                return year + " " + month + " " + day + " " + hour;
+            },
             "yyyy MMM dd HH",
             ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details"),
 
     TIME_MK("http://www.time.mk/nastani/macedonia/3",
             ".event_single > .event_actions > p",
             ".event_single > .event_actions > #event_date",
+            date -> {
+                String atString = " at ";
+                int atIndex = date.indexOf(atString);
+                String dayMonthDay = date.substring(0, atIndex); // gets the 'Wednesday, Aug 10' part
+                String hours = date.substring(atIndex + atString.length(), atIndex + atString.length() + 2);
+                String year = DateTime.now().year().getAsString(); // possible bug for New Years Eve
+                return dayMonthDay + " " + hours + " " + year;
+            },
             "EEEE, MMM dd HH yyyy",
             ".event_single > .event_actions > #event_location > a"),
 
     COOLTURA("http://cooltura.mk/kulturni-nastani",
-        ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-title",
-        ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data",
-        "MM/dd/yyyy - HH:mm",
-        ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data");
+            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-title",
+            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data",
+            s -> s,
+            "MM/dd/yyyy - HH:mm",
+            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data");
     // no place provided for cooltura.mk
     // cooltura.mk is actually a site for news related to cultural stuff
     // move along, nothing to see here (https://www.youtube.com/watch?v=5NNOrp_83RU)
@@ -34,13 +56,16 @@ public enum EventSitesEnum {
     private String titleSelector;
     private String dateSelector;
     private String dateFormat;
+    private Function<String, String> dateConverter;
     private String placeSelector;
 
-    EventSitesEnum(String url, String titleSelector, String dateSelector, String dateFormat, String placeSelector) {
+    EventSitesEnum(String url, String titleSelector, String dateSelector, Function<String, String> dateConverter,
+                   String dateFormat, String placeSelector) {
         this.url = url;
         this.titleSelector = titleSelector;
         this.dateSelector = dateSelector;
         this.dateFormat = dateFormat;
+        this.dateConverter = dateConverter;
         this.placeSelector = placeSelector;
     }
 
@@ -48,39 +73,23 @@ public enum EventSitesEnum {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getTitleSelector() {
         return titleSelector;
-    }
-
-    public void setTitleSelector(String titleSelector) {
-        this.titleSelector = titleSelector;
     }
 
     public String getDateSelector() {
         return dateSelector;
     }
 
-    public void setDateSelector(String dateSelector) {
-        this.dateSelector = dateSelector;
-    }
-
     public String getDateFormat() {
         return dateFormat;
     }
 
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
+    public Function<String, String> getDateConverter() {
+        return dateConverter;
     }
 
     public String getPlaceSelector() {
         return placeSelector;
-    }
-
-    public void setPlaceSelector(String placeSelector) {
-        this.placeSelector = placeSelector;
     }
 }

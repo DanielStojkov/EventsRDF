@@ -22,7 +22,7 @@ public class CulturalEvent {
      * @return String representation of the date.
      */
     public String getFormattedDate() {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd HH");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd HH:mm");
         return date.toString(formatter);
     }
 
