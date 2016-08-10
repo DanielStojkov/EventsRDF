@@ -2,6 +2,7 @@ package events.web;
 
 import events.models.CulturalEvent;
 import events.parsers.HtmlParser;
+import events.service.EventStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,13 +15,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/demo")
 public class DemoController {
+    private static final String EVENTS_FILE = "events.txt";
     // controller just for debugging purposes for now
 
     @Autowired
     private HtmlParser parser;
 
+    @Autowired
+    private EventStorageService storageService;
+
     @RequestMapping("")
     public List<CulturalEvent> demo() {
-        return parser.parse();
+        List<CulturalEvent> events = parser.parse();
+        storageService.addEventsToFile(EVENTS_FILE, events);
+        return events;
     }
 }
