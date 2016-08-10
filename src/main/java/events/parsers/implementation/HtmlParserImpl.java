@@ -1,9 +1,12 @@
-package events.parsers;
+package events.parsers.implementation;
 
 import events.exception.HtmlParseException;
 import events.models.CulturalEvent;
 import events.models.EventSitesEnum;
+import events.parsers.HtmlParser;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,11 +31,12 @@ public class HtmlParserImpl implements HtmlParser {
                 Document doc = Jsoup.connect(entry.getUrl()).timeout(0).get();
                 Elements titles = doc.select(entry.getTitleSelector());
                 Elements dates = doc.select(entry.getDateSelector());
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(entry.getDateFormat());
                 Elements places = doc.select(entry.getPlaceSelector());
                 for (int i = 0; i < titles.size(); ++i) {
                     CulturalEvent event = new CulturalEvent();
                     event.setTitle(titles.get(i).text());
-                    event.setDate(dates.get(i).text());
+                    event.setDate(DateTime.parse(dates.get(i).text(), dateTimeFormatter));
                     event.setPlace(places.get(i).text());
                     events.add(event);
                 }

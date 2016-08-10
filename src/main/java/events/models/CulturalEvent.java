@@ -1,19 +1,20 @@
 package events.models;
 
+import org.joda.time.DateTime;
+
 /**
  * A model representing a cultural event.
  */
 public class CulturalEvent {
-    // TODO: gcvetano 09.08.2016 make date DateTime instead of String
-    private String date;
+    private DateTime date;
     private String title;
     private String place;
 
-    public String getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
@@ -31,5 +32,10 @@ public class CulturalEvent {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s", getDate(), getTitle(), getPlace());
     }
 }
