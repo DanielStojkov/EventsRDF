@@ -36,7 +36,21 @@ public class HtmlParserImpl implements HtmlParser {
                 for (int i = 0; i < titles.size(); ++i) {
                     CulturalEvent event = new CulturalEvent();
                     event.setTitle(titles.get(i).text());
-                    event.setDate(DateTime.parse(dates.get(i).text(), dateTimeFormatter));
+                    String date = dates.get(i).text();
+
+                    // specific date formats from sources
+                    if (entry.getUrl().equals(EventSitesEnum.TIME_MK.getUrl())) {
+                        //Wednesday, Aug 10 at 22:00h - 02:00h
+                        //parse the date manually and then use a date time formatter
+                        String atString = " at ";
+                        int atIndex = date.indexOf(atString);
+                        String dayMonthDay = date.substring(0, atIndex); // gets the 'Wednesday, Aug 10' part
+                        String hours = date.substring(atIndex + atString.length(), atIndex + atString.length() + 2);
+                        String year = DateTime.now().year().getAsString(); // possible bug for New Years Eve
+                        date = dayMonthDay + " " + hours + " " + year;
+                    }
+
+                    event.setDate(DateTime.parse(date, dateTimeFormatter));
                     event.setPlace(places.get(i).text());
                     events.add(event);
                 }

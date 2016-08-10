@@ -4,6 +4,11 @@ package events.models;
  * Enumeration for the sources that provide Cultural Events.
  */
 public enum EventSitesEnum {
+    TIME_MK("http://www.time.mk/nastani/",
+            ".event_single > .event_actions > p",
+            ".event_single > .event_actions > #event_date",
+            "EEEE, MMM dd HH yyyy",
+            ".event_single > .event_actions > #event_location > a"),
 
     COOLTURA("http://cooltura.mk/kulturni-nastani",
         ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-title",
