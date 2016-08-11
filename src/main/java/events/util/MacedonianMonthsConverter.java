@@ -25,6 +25,6 @@ public final class MacedonianMonthsConverter {
     }
 
     public static String getEnglishNameForMonth(String macedonianNameForMonth) {
-        return translations.get(macedonianNameForMonth);
+        return translations.get(macedonianNameForMonth.toLowerCase());
     }
 }
