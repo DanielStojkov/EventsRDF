@@ -25,7 +25,6 @@ public class EventStorageServiceImpl implements EventStorageService {
             StringBuilder sb = new StringBuilder();
             for (CulturalEvent event : events) {
                 sb.append(event.toString());
-                String newline = System.getProperty(System.getProperty("line.separator"));
                 sb.append(System.getProperty("line.separator"));
             }
             // FIXME: 10.08.2016 it saves to the file, but in the target directory (it should be in resources folder)

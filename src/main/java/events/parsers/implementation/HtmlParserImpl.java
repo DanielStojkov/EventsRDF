@@ -4,17 +4,11 @@ import events.exception.HtmlParseException;
 import events.models.CulturalEvent;
 import events.models.EventSitesEnum;
 import events.parsers.HtmlParser;
-import events.util.MacedonianMonthsConverter;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import events.util.CrawlerRunnable;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,27 +19,23 @@ public class HtmlParserImpl implements HtmlParser {
 
     @Override
     public List<CulturalEvent> parse() {
-        List<CulturalEvent> events = new ArrayList<>();
-        for (EventSitesEnum entry : EventSitesEnum.values()) {
+        final List<CulturalEvent> events = new ArrayList<>();
+        List<Thread> threads = new ArrayList<>();
+
+        List<EventSitesEnum> entries = Arrays.asList(EventSitesEnum.values());
+        entries.forEach(e -> {
+            Thread t = new Thread(new CrawlerRunnable(events, e));
+            threads.add(t);
+        });
+        threads.forEach(Thread::start);
+        threads.forEach(t -> {
             try {
-                Document doc = Jsoup.connect(entry.getUrl()).timeout(0).get();
-                Elements titles = doc.select(entry.getTitleSelector());
-                Elements dates = doc.select(entry.getDateSelector());
-                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(entry.getDateFormat());
-                Elements places = doc.select(entry.getPlaceSelector());
-                for (int i = 0; i < titles.size(); ++i) {
-                    CulturalEvent event = new CulturalEvent();
-                    event.setTitle(titles.get(i).text());
-                    String date = dates.get(i).text();
-                    date = entry.getDateConverter().apply(date);
-                    event.setDate(DateTime.parse(date, dateTimeFormatter));
-                    event.setPlace(places.get(i).text());
-                    events.add(event);
-                }
-            } catch (IOException e) {
-                throw new HtmlParseException(entry.getUrl(), e);
+                t.join();
+            } catch (InterruptedException e) {
+                throw new HtmlParseException(e);
             }
-        }
+        });
+
         return events;
     }
 }

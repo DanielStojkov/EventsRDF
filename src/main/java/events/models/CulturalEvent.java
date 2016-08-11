@@ -3,7 +3,6 @@ package events.models;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.springframework.format.datetime.DateFormatter;
 
 /**
  * A model representing a cultural event.
