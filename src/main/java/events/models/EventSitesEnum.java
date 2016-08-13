@@ -1,7 +1,9 @@
 package events.models;
 
+import events.util.Constants;
 import events.util.MacedonianMonthsConverter;
 import org.joda.time.DateTime;
+import org.jsoup.nodes.Element;
 
 import java.util.function.Function;
 
@@ -23,7 +25,12 @@ public enum EventSitesEnum {
                         + MacedonianMonthsConverter.getEnglishNameForMonth(dateParts[1]) + " " + dateParts[2];
             },
             "yyyy dd MMM HH:mm",
-            ".items-row > .span12 > .item > .item_header > span > a"),
+            ".items-row > .span12 > .item > .item_header > span > a",
+            ".items-row > .span12 > .item > a",
+            true,
+            "http://zabavi.mk/",
+            ".items-row > .span12 > .item > .item_img > a > img",
+            element -> "http://zabavi.mk" + element.attr("src")),
 
     EVENTI_MK("http://eventi.mk/skopje/nastani/kategorija/kultura/",
             ".type-tribe_events > .entry-title",
@@ -40,7 +47,12 @@ public enum EventSitesEnum {
                 return year + " " + month + " " + day + " " + hour;
             },
             "yyyy MMM dd HH:mm",
-            ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details"),
+            ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details",
+            ".type-tribe_events > .entry-title > a",
+            true,
+            "",
+            ".type-tribe_events > div > img",
+            element -> element.attr("src")),
 
     TIME_MK("http://www.time.mk/nastani/macedonia/3",
             ".event_single > .event_actions > p",
@@ -55,10 +67,18 @@ public enum EventSitesEnum {
                 return dayMonthDay + " " + hours + " " + year;
             },
             "EEEE, MMM dd HH:mm yyyy",
-            ".event_single > .event_actions > #event_location > a");
-
-
-    // TODO: gcvetano 09.08.2016 find some sites that provide cultural events
+            ".event_single > .event_actions > #event_location > a",
+            ".event_single > .event_header > .event_cover > span > a",
+            true,
+            "http://time.mk/",
+            ".event_single > .event_header > .event_cover",
+            element -> {
+                String styleAttribute = element.attr("style");
+                int startIndex = styleAttribute.indexOf(Constants.STYLE_BACKGROUND_IMG_START)
+                        + Constants.STYLE_BACKGROUND_IMG_START.length();
+                int endIndex = styleAttribute.indexOf(Constants.STYLE_BACKGROUND_IMG_END);
+                return styleAttribute.substring(startIndex, endIndex);
+            });
 
     private String url;
     private String titleSelector;
@@ -66,15 +86,26 @@ public enum EventSitesEnum {
     private String dateFormat;
     private Function<String, String> dateConverter;
     private String placeSelector;
+    private String eventUrlSelector;
+    private boolean eventUrlAccessible;
+    private String eventUrlDomain;
+    private String imgHolderSelector;
+    private Function<Element, String> imgUrlExtractor;
 
     EventSitesEnum(String url, String titleSelector, String dateSelector, Function<String, String> dateConverter,
-                   String dateFormat, String placeSelector) {
+                   String dateFormat, String placeSelector, String eventUrlSelector, boolean eventUrlAccessible,
+                   String eventUrlDomain, String imgHolderSelector, Function<Element, String> imgUrlExtractor) {
         this.url = url;
         this.titleSelector = titleSelector;
         this.dateSelector = dateSelector;
         this.dateFormat = dateFormat;
         this.dateConverter = dateConverter;
         this.placeSelector = placeSelector;
+        this.eventUrlSelector = eventUrlSelector;
+        this.eventUrlAccessible = eventUrlAccessible;
+        this.eventUrlDomain = eventUrlDomain;
+        this.imgHolderSelector = imgHolderSelector;
+        this.imgUrlExtractor = imgUrlExtractor;
     }
 
     public String getUrl() {
@@ -99,5 +130,25 @@ public enum EventSitesEnum {
 
     public String getPlaceSelector() {
         return placeSelector;
+    }
+
+    public String getEventUrlSelector() {
+        return eventUrlSelector;
+    }
+
+    public boolean isEventUrlAccessible() {
+        return eventUrlAccessible;
+    }
+
+    public String getEventUrlDomain() {
+        return eventUrlDomain;
+    }
+
+    public Function<Element, String> getImgUrlExtractor() {
+        return imgUrlExtractor;
+    }
+
+    public String getImgHolderSelector() {
+        return imgHolderSelector;
     }
 }

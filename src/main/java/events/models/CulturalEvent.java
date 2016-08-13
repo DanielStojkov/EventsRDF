@@ -15,6 +15,8 @@ public class CulturalEvent {
     private DateTime date;
     private String title;
     private String place;
+    private String url;
+    private String imgUrl;
 
     @JsonIgnore
     public DateTime getDate() {
@@ -49,8 +51,25 @@ public class CulturalEvent {
         this.place = place;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     @Override
     public String toString() {
+        // TODO: gcvetano 13.08.2016 add url and other additional properties to tostring and valueof
         return String.format("%s%s%s%s%s",
                 getTitle(), propertiesSplitter, getFormattedDate(), propertiesSplitter, getPlace());
     }
