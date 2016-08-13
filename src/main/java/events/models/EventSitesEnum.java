@@ -1,7 +1,9 @@
 package events.models;
 
+import events.util.Constants;
 import events.util.MacedonianMonthsConverter;
 import org.joda.time.DateTime;
+import org.jsoup.nodes.Element;
 
 import java.util.function.Function;
 
@@ -26,7 +28,9 @@ public enum EventSitesEnum {
             ".items-row > .span12 > .item > .item_header > span > a",
             ".items-row > .span12 > .item > a",
             true,
-            "http://zabavi.mk/"),
+            "http://zabavi.mk/",
+            ".items-row > .span12 > .item > .item_img > a > img",
+            element -> "http://zabavi.mk" + element.attr("src")),
 
     EVENTI_MK("http://eventi.mk/skopje/nastani/kategorija/kultura/",
             ".type-tribe_events > .entry-title",
@@ -46,7 +50,9 @@ public enum EventSitesEnum {
             ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details",
             ".type-tribe_events > .entry-title > a",
             true,
-            ""),
+            "",
+            ".type-tribe_events > div > img",
+            element -> element.attr("src")),
 
     TIME_MK("http://www.time.mk/nastani/macedonia/3",
             ".event_single > .event_actions > p",
@@ -64,9 +70,15 @@ public enum EventSitesEnum {
             ".event_single > .event_actions > #event_location > a",
             ".event_single > .event_header > .event_cover > span > a",
             true,
-            "http://time.mk/");
-
-    // TODO: gcvetano 09.08.2016 find some sites that provide cultural events
+            "http://time.mk/",
+            ".event_single > .event_header > .event_cover",
+            element -> {
+                String styleAttribute = element.attr("style");
+                int startIndex = styleAttribute.indexOf(Constants.STYLE_BACKGROUND_IMG_START)
+                        + Constants.STYLE_BACKGROUND_IMG_START.length();
+                int endIndex = styleAttribute.indexOf(Constants.STYLE_BACKGROUND_IMG_END);
+                return styleAttribute.substring(startIndex, endIndex);
+            });
 
     private String url;
     private String titleSelector;
@@ -77,10 +89,12 @@ public enum EventSitesEnum {
     private String eventUrlSelector;
     private boolean eventUrlAccessible;
     private String eventUrlDomain;
+    private String imgHolderSelector;
+    private Function<Element, String> imgUrlExtractor;
 
     EventSitesEnum(String url, String titleSelector, String dateSelector, Function<String, String> dateConverter,
                    String dateFormat, String placeSelector, String eventUrlSelector, boolean eventUrlAccessible,
-                   String eventUrlDomain) {
+                   String eventUrlDomain, String imgHolderSelector, Function<Element, String> imgUrlExtractor) {
         this.url = url;
         this.titleSelector = titleSelector;
         this.dateSelector = dateSelector;
@@ -90,6 +104,8 @@ public enum EventSitesEnum {
         this.eventUrlSelector = eventUrlSelector;
         this.eventUrlAccessible = eventUrlAccessible;
         this.eventUrlDomain = eventUrlDomain;
+        this.imgHolderSelector = imgHolderSelector;
+        this.imgUrlExtractor = imgUrlExtractor;
     }
 
     public String getUrl() {
@@ -126,5 +142,13 @@ public enum EventSitesEnum {
 
     public String getEventUrlDomain() {
         return eventUrlDomain;
+    }
+
+    public Function<Element, String> getImgUrlExtractor() {
+        return imgUrlExtractor;
+    }
+
+    public String getImgHolderSelector() {
+        return imgHolderSelector;
     }
 }

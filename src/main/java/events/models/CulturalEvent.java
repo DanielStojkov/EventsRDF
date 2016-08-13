@@ -16,6 +16,7 @@ public class CulturalEvent {
     private String title;
     private String place;
     private String url;
+    private String imgUrl;
 
     @JsonIgnore
     public DateTime getDate() {
@@ -56,6 +57,14 @@ public class CulturalEvent {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override

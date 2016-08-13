@@ -36,6 +36,7 @@ public class CrawlerRunnable implements Runnable {
             DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(entry.getDateFormat());
             Elements places = doc.select(entry.getPlaceSelector());
             Elements eventUrls = doc.select(entry.getEventUrlSelector());
+            Elements imgUrls = doc.select(entry.getImgHolderSelector());
             for (int i = 0; i < titles.size(); ++i) {
                 CulturalEvent event = new CulturalEvent();
                 event.setTitle(titles.get(i).text());
@@ -52,6 +53,7 @@ public class CrawlerRunnable implements Runnable {
                     eventUrl = entry.getUrl();
                 }
                 event.setUrl(eventUrl);
+                event.setImgUrl(entry.getImgUrlExtractor().apply(imgUrls.get(i)));
                 localEvents.add(event);
             }
             synchronized (events) {
