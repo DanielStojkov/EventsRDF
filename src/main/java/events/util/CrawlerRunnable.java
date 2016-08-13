@@ -44,15 +44,7 @@ public class CrawlerRunnable implements Runnable {
                 date = entry.getDateConverter().apply(date);
                 event.setDate(DateTime.parse(date, dateTimeFormatter));
                 event.setPlace(places.get(i).text());
-                String eventUrl;
-                if (entry.isEventUrlAccessible()) {
-                    Element a = eventUrls.get(i);
-                    eventUrl = entry.getEventUrlDomain() + a.attr("href");
-                }
-                else {
-                    eventUrl = entry.getUrl();
-                }
-                event.setUrl(eventUrl);
+                event.setUrl(entry.getEventUrlDomain() + eventUrls.get(i).attr(Constants.ATTRIBUTE_HREF));
                 event.setImgUrl(entry.getImgUrlExtractor().apply(imgUrls.get(i)));
                 localEvents.add(event);
             }

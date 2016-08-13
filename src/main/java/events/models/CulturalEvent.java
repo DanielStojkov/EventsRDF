@@ -70,8 +70,12 @@ public class CulturalEvent {
     @Override
     public String toString() {
         // TODO: gcvetano 13.08.2016 add url and other additional properties to tostring and valueof
-        return String.format("%s%s%s%s%s",
-                getTitle(), propertiesSplitter, getFormattedDate(), propertiesSplitter, getPlace());
+        return String.format("%s%s%s%s%s%s%s%s%s",
+                getTitle(), propertiesSplitter,
+                getFormattedDate(), propertiesSplitter,
+                getPlace(), propertiesSplitter,
+                getUrl(), propertiesSplitter,
+                getImgUrl());
     }
 
     public static CulturalEvent valueOf(String eventString) {
@@ -79,11 +83,15 @@ public class CulturalEvent {
         String title = properties[0];
         DateTime date = DateTime.parse(properties[1], formatter);
         String place = properties[2];
+        String url = properties[3];
+        String imgUrl = properties[4];
 
         CulturalEvent event = new CulturalEvent();
         event.setTitle(title);
         event.setDate(date);
         event.setPlace(place);
+        event.setUrl(url);
+        event.setImgUrl(imgUrl);
         return event;
     }
 }

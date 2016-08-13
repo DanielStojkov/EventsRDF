@@ -27,10 +27,9 @@ public enum EventSitesEnum {
             "yyyy dd MMM HH:mm",
             ".items-row > .span12 > .item > .item_header > span > a",
             ".items-row > .span12 > .item > a",
-            true,
             "http://zabavi.mk/",
             ".items-row > .span12 > .item > .item_img > a > img",
-            element -> "http://zabavi.mk" + element.attr("src")),
+            element -> "http://zabavi.mk" + element.attr(Constants.ATTRIBUTE_SRC)),
 
     EVENTI_MK("http://eventi.mk/skopje/nastani/kategorija/kultura/",
             ".type-tribe_events > .entry-title",
@@ -49,10 +48,9 @@ public enum EventSitesEnum {
             "yyyy MMM dd HH:mm",
             ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details",
             ".type-tribe_events > .entry-title > a",
-            true,
             "",
             ".type-tribe_events > div > img",
-            element -> element.attr("src")),
+            element -> element.attr(Constants.ATTRIBUTE_SRC)),
 
     TIME_MK("http://www.time.mk/nastani/macedonia/3",
             ".event_single > .event_actions > p",
@@ -69,11 +67,10 @@ public enum EventSitesEnum {
             "EEEE, MMM dd HH:mm yyyy",
             ".event_single > .event_actions > #event_location > a",
             ".event_single > .event_header > .event_cover > span > a",
-            true,
             "http://time.mk/",
             ".event_single > .event_header > .event_cover",
             element -> {
-                String styleAttribute = element.attr("style");
+                String styleAttribute = element.attr(Constants.ATTRIBUTE_STYLE);
                 int startIndex = styleAttribute.indexOf(Constants.STYLE_BACKGROUND_IMG_START)
                         + Constants.STYLE_BACKGROUND_IMG_START.length();
                 int endIndex = styleAttribute.indexOf(Constants.STYLE_BACKGROUND_IMG_END);
@@ -87,13 +84,12 @@ public enum EventSitesEnum {
     private Function<String, String> dateConverter;
     private String placeSelector;
     private String eventUrlSelector;
-    private boolean eventUrlAccessible;
     private String eventUrlDomain;
     private String imgHolderSelector;
     private Function<Element, String> imgUrlExtractor;
 
     EventSitesEnum(String url, String titleSelector, String dateSelector, Function<String, String> dateConverter,
-                   String dateFormat, String placeSelector, String eventUrlSelector, boolean eventUrlAccessible,
+                   String dateFormat, String placeSelector, String eventUrlSelector,
                    String eventUrlDomain, String imgHolderSelector, Function<Element, String> imgUrlExtractor) {
         this.url = url;
         this.titleSelector = titleSelector;
@@ -102,7 +98,6 @@ public enum EventSitesEnum {
         this.dateConverter = dateConverter;
         this.placeSelector = placeSelector;
         this.eventUrlSelector = eventUrlSelector;
-        this.eventUrlAccessible = eventUrlAccessible;
         this.eventUrlDomain = eventUrlDomain;
         this.imgHolderSelector = imgHolderSelector;
         this.imgUrlExtractor = imgUrlExtractor;
@@ -134,10 +129,6 @@ public enum EventSitesEnum {
 
     public String getEventUrlSelector() {
         return eventUrlSelector;
-    }
-
-    public boolean isEventUrlAccessible() {
-        return eventUrlAccessible;
     }
 
     public String getEventUrlDomain() {
