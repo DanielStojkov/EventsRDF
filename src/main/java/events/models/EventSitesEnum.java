@@ -23,7 +23,10 @@ public enum EventSitesEnum {
                         + MacedonianMonthsConverter.getEnglishNameForMonth(dateParts[1]) + " " + dateParts[2];
             },
             "yyyy dd MMM HH:mm",
-            ".items-row > .span12 > .item > .item_header > span > a"),
+            ".items-row > .span12 > .item > .item_header > span > a",
+            ".items-row > .span12 > .item > a",
+            true,
+            "http://zabavi.mk/"),
 
     EVENTI_MK("http://eventi.mk/skopje/nastani/kategorija/kultura/",
             ".type-tribe_events > .entry-title",
@@ -40,7 +43,10 @@ public enum EventSitesEnum {
                 return year + " " + month + " " + day + " " + hour;
             },
             "yyyy MMM dd HH:mm",
-            ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details"),
+            ".type-tribe_events > .tribe-events-event-meta > .location > .tribe-events-venue-details",
+            ".type-tribe_events > .entry-title > a",
+            true,
+            ""),
 
     TIME_MK("http://www.time.mk/nastani/macedonia/3",
             ".event_single > .event_actions > p",
@@ -55,17 +61,10 @@ public enum EventSitesEnum {
                 return dayMonthDay + " " + hours + " " + year;
             },
             "EEEE, MMM dd HH:mm yyyy",
-            ".event_single > .event_actions > #event_location > a"),
-
-    COOLTURA("http://cooltura.mk/kulturni-nastani",
-            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-title",
-            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data",
-            s -> s,
-            "MM/dd/yyyy - HH:mm",
-            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data");
-    // no place provided for cooltura.mk
-    // cooltura.mk is actually a site for news related to cultural stuff
-    // move along, nothing to see here (https://www.youtube.com/watch?v=5NNOrp_83RU)
+            ".event_single > .event_actions > #event_location > a",
+            ".event_single > .event_header > .event_cover > span > a",
+            true,
+            "http://time.mk/");
 
     // TODO: gcvetano 09.08.2016 find some sites that provide cultural events
 
@@ -75,15 +74,22 @@ public enum EventSitesEnum {
     private String dateFormat;
     private Function<String, String> dateConverter;
     private String placeSelector;
+    private String eventUrlSelector;
+    private boolean eventUrlAccessible;
+    private String eventUrlDomain;
 
     EventSitesEnum(String url, String titleSelector, String dateSelector, Function<String, String> dateConverter,
-                   String dateFormat, String placeSelector) {
+                   String dateFormat, String placeSelector, String eventUrlSelector, boolean eventUrlAccessible,
+                   String eventUrlDomain) {
         this.url = url;
         this.titleSelector = titleSelector;
         this.dateSelector = dateSelector;
         this.dateFormat = dateFormat;
         this.dateConverter = dateConverter;
         this.placeSelector = placeSelector;
+        this.eventUrlSelector = eventUrlSelector;
+        this.eventUrlAccessible = eventUrlAccessible;
+        this.eventUrlDomain = eventUrlDomain;
     }
 
     public String getUrl() {
@@ -108,5 +114,17 @@ public enum EventSitesEnum {
 
     public String getPlaceSelector() {
         return placeSelector;
+    }
+
+    public String getEventUrlSelector() {
+        return eventUrlSelector;
+    }
+
+    public boolean isEventUrlAccessible() {
+        return eventUrlAccessible;
+    }
+
+    public String getEventUrlDomain() {
+        return eventUrlDomain;
     }
 }
