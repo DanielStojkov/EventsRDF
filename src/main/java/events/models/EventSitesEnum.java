@@ -55,17 +55,8 @@ public enum EventSitesEnum {
                 return dayMonthDay + " " + hours + " " + year;
             },
             "EEEE, MMM dd HH:mm yyyy",
-            ".event_single > .event_actions > #event_location > a"),
+            ".event_single > .event_actions > #event_location > a");
 
-    COOLTURA("http://cooltura.mk/kulturni-nastani",
-            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-title",
-            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data",
-            s -> s,
-            "MM/dd/yyyy - HH:mm",
-            ".kategorija-sredni-box > .kategorija-sredni-info > .kategorija-sredni-data");
-    // no place provided for cooltura.mk
-    // cooltura.mk is actually a site for news related to cultural stuff
-    // move along, nothing to see here (https://www.youtube.com/watch?v=5NNOrp_83RU)
 
     // TODO: gcvetano 09.08.2016 find some sites that provide cultural events
 

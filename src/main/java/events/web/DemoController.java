@@ -28,6 +28,7 @@ public class DemoController {
     public List<CulturalEvent> demo() {
         List<CulturalEvent> events = parser.parse();
         storageService.addEventsToFile(Constants.EVENTS_FILE, events);
+        storageService.addEventsToRDF("events.ttl", events);
         return events;
     }
 }

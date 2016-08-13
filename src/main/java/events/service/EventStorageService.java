@@ -2,6 +2,7 @@ package events.service;
 
 import events.models.CulturalEvent;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,4 +15,6 @@ public interface EventStorageService {
      * @param events the list of events.
      */
     void addEventsToFile(String fileName, List<CulturalEvent> events);
+
+    void addEventsToRDF(String fileName, List<CulturalEvent> events);
 }
