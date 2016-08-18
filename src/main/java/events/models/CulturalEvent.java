@@ -12,11 +12,21 @@ public class CulturalEvent {
     private static final String propertiesSplitter = "::";
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd HH:mm");
 
+    private String URI;
+
     private DateTime date;
     private String title;
     private String place;
     private String url;
     private String imgUrl;
+
+    public String getURI() {
+        return URI;
+    }
+
+    public void setURI(String URI) {
+        this.URI = URI;
+    }
 
     @JsonIgnore
     public DateTime getDate() {
