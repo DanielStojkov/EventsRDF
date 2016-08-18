@@ -82,7 +82,7 @@ public class QueryRDFModelServiceImpl implements QueryRDFModelService {
         Model model = ModelFactory.createDefaultModel();
 
         // use the FileManager to find the input file
-        InputStream in = FileManager.get().open(environment.getProperty("mkdCulturalEvents.ttl"));
+        InputStream in = FileManager.get().open(environment.getProperty("ontology.model.name"));
         if (in == null) {
             throw new IllegalArgumentException(
                     "File not found");
