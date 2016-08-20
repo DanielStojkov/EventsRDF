@@ -2,6 +2,7 @@ package events.service.implementation;
 
 import events.models.CulturalEvent;
 import events.service.QueryRDFModelService;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.util.FileManager;
 import org.apache.jena.vocabulary.RDF;
@@ -10,6 +11,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.Calendar;
@@ -19,6 +21,7 @@ import java.util.List;
 /**
  * Created by Daniel on 8/18/2016.
  */
+@Service
 public class QueryRDFModelServiceImpl implements QueryRDFModelService {
 
     @Autowired
@@ -43,10 +46,20 @@ public class QueryRDFModelServiceImpl implements QueryRDFModelService {
     }
 
     @Override
-    public CulturalEvent getById(String uri) {
+    public CulturalEvent getByURI(String uri) {
         Model model = readModel();
         return getCulturalEventFromModel(model.getResource(uri), model);
     }
+
+    @Override
+    public CulturalEvent getByURIPathAndName(String path, String name) {
+        return getByURI("http://"
+                + environment.getProperty("server.address") + ":"
+                + environment.getProperty("server.port") + "/"
+                + path + "/"
+                + name);
+    }
+
 
     @Override
     public List<CulturalEvent> sortByDate(boolean asc) {
@@ -64,7 +77,8 @@ public class QueryRDFModelServiceImpl implements QueryRDFModelService {
         String image = event.getProperty(RSS.image).getObject().asLiteral().getString();
         String place = event.getProperty(hasPlace).getObject().asResource()
                 .getProperty(RSS.name).getObject().asLiteral().getString();
-        Calendar timeStamp = (Calendar) event.getProperty(hasTimeStamp).getObject().asLiteral().getValue();
+        Calendar timeStamp = ((XSDDateTime) event.getProperty(hasTimeStamp).getObject().asLiteral().getValue())
+                .asCalendar();
 
         CulturalEvent culturalEvent = new CulturalEvent();
         culturalEvent.setURI(uri);

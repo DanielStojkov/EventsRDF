@@ -11,7 +11,9 @@ public interface QueryRDFModelService {
 
     public List<CulturalEvent> listAll();
 
-    public CulturalEvent getById(String uri);
+    public CulturalEvent getByURI(String uri);
+
+    public CulturalEvent getByURIPathAndName(String path, String name);
 
     public List<CulturalEvent> sortByDate(boolean asc);
 }

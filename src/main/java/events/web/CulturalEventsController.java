@@ -2,6 +2,7 @@ package events.web;
 
 import events.models.CulturalEvent;
 import events.service.EventFileReaderService;
+import events.service.QueryRDFModelService;
 import events.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,14 +22,21 @@ public class CulturalEventsController {
     @Autowired
     private EventFileReaderService readerService;
 
+    @Autowired
+    private QueryRDFModelService queryRDFModelService;
+
     @RequestMapping("/mock")
     public List<CulturalEvent> getMockData() {
         return readerService.readEventsFromFile(Constants.EVENTS_FILE);
     }
 
-    @RequestMapping("/{event}")
+    @RequestMapping()
+    public List<CulturalEvent> getAll() {
+        return queryRDFModelService.listAll();
+    }
+
+    @RequestMapping("/{event:.+}")
     public CulturalEvent getEvent(@PathVariable String event, HttpServletRequest request) {
-        System.out.println("Context path:" + request.getRequestURL());
-        return null;
+        return queryRDFModelService.getByURIPathAndName(Constants.EVENTS_PATH, event);
     }
 }

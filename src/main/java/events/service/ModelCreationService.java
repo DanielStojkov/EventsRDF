@@ -3,6 +3,7 @@ package events.service;
 import events.models.CulturalEvent;
 import org.apache.jena.rdf.model.Model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -10,6 +11,6 @@ import java.util.List;
  */
 public interface ModelCreationService {
 
-    public Model createModel(List<CulturalEvent> events);
+    public Model createModel(List<CulturalEvent> events) throws UnsupportedEncodingException;
 
 }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -22,7 +24,7 @@ public class ModelCreationServiceImpl implements ModelCreationService{
     private Environment environment;
 
     @Override
-    public Model createModel(List<CulturalEvent> events) {
+    public Model createModel(List<CulturalEvent> events) throws UnsupportedEncodingException {
         Model model = ModelFactory.createDefaultModel();
         String namespace = environment.getProperty("ontology.model.namespace");
         model.setNsPrefix(environment.getProperty("ontology.model.namespace"),
@@ -56,7 +58,7 @@ public class ModelCreationServiceImpl implements ModelCreationService{
     }
 
 
-    private String processURI(String name, String path) {
+    private String processURI(String name, String path) throws UnsupportedEncodingException {
         return "http://"
                 + environment.getProperty("server.address") + ":"
                 + environment.getProperty("server.port") + "/"
