@@ -16,4 +16,6 @@ public class Constants {
 
     public static final String STYLE_BACKGROUND_IMG_START = "background-image:url('";
     public static final String STYLE_BACKGROUND_IMG_END = "')";
+
+    public static final String CLIENT_ORIGIN = "http://localhost:3000";
 }
