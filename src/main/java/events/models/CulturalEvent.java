@@ -79,7 +79,6 @@ public class CulturalEvent {
 
     @Override
     public String toString() {
-        // TODO: gcvetano 13.08.2016 add url and other additional properties to tostring and valueof
         return String.format("%s%s%s%s%s%s%s%s%s",
                 getTitle(), propertiesSplitter,
                 getFormattedDate(), propertiesSplitter,

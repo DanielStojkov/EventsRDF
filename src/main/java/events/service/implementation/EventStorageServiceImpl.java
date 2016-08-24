@@ -37,7 +37,6 @@ public class EventStorageServiceImpl implements EventStorageService {
                 sb.append(event.toString());
                 sb.append(System.getProperty("line.separator"));
             }
-            // FIXME: 10.08.2016 it saves to the file, but in the target directory (it should be in resources folder)
             Resource resource = new ClassPathResource(fileName);
             Files.write(Paths.get(resource.getURI()), sb.toString().getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
@@ -60,7 +59,7 @@ public class EventStorageServiceImpl implements EventStorageService {
             OutputStream outputStream = new FileOutputStream(resource.getFile());
             newModel.write(outputStream, "TTL");
         } catch (IOException e) {
-            throw  new StorageException(String.format("Error on read/write file %s", fileName), e);
+            throw new StorageException(String.format("Error on read/write file %s", fileName), e);
         }
 
     }

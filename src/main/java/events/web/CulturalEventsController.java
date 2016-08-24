@@ -1,7 +1,6 @@
 package events.web;
 
 import events.models.CulturalEvent;
-import events.service.EventFileReaderService;
 import events.service.QueryRDFModelService;
 import events.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +20,7 @@ import java.util.List;
 public class CulturalEventsController {
 
     @Autowired
-    private EventFileReaderService readerService;
-
-    @Autowired
     private QueryRDFModelService queryRDFModelService;
-
-    @CrossOrigin(Constants.CLIENT_ORIGIN)
-    @RequestMapping("/mock")
-    public List<CulturalEvent> getMockData() {
-        return readerService.readEventsFromFile(Constants.EVENTS_FILE);
-    }
 
     @CrossOrigin(Constants.CLIENT_ORIGIN)
     @RequestMapping()

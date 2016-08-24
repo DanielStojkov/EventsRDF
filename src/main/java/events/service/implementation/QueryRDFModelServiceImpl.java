@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Daniel on 8/18/2016.
+ * Default implementation of {@link QueryRDFModelService}.
  */
 @Service
 public class QueryRDFModelServiceImpl implements QueryRDFModelService {

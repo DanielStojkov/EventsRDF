@@ -16,5 +16,10 @@ public interface EventStorageService {
      */
     void addEventsToFile(String fileName, List<CulturalEvent> events);
 
+    /**
+     * Stores the events to a rdf model file.
+     * @param fileName the file to which the events will be stored.
+     * @param events the list of events.
+     */
     void addEventsToRDF(String fileName, List<CulturalEvent> events);
 }

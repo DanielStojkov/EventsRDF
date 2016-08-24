@@ -15,7 +15,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * Created by Daniel on 8/13/2016.
+ * Default implementation of {@link ModelCreationService}.
  */
 @Service
 public class ModelCreationServiceImpl implements ModelCreationService{

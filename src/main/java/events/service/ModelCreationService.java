@@ -7,10 +7,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
- * Created by Daniel on 8/13/2016.
+ * Service for creating a rdf model.
  */
 public interface ModelCreationService {
 
-    public Model createModel(List<CulturalEvent> events) throws UnsupportedEncodingException;
+    Model createModel(List<CulturalEvent> events) throws UnsupportedEncodingException;
 
 }
